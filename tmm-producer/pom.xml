@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.tuandai.architecture</groupId>
+    <artifactId>tmm-producer</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>tmm-producer</name>
+
+    <modules>
+        <module>tmm-producer-core</module>
+        <module>tmm-rabbitmq-producer</module>
+        <module>tmm-rocketmq-producer</module>
+		<module>tmm-producer-starter</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <fastjson.version>1.2.51</fastjson.version>
+        <rocketmq-client>4.3.1</rocketmq-client>
+        <commons-codec>1.11</commons-codec>
+        <guava>24.1-jre</guava>
+        <quartz>2.3.0</quartz>
+        <spring-boot-starter-amqp>1.5.2.RELEASE</spring-boot-starter-amqp>
+        <spring-boot-starter-web>1.5.2.RELEASE</spring-boot-starter-web>
+        <aspectjweaver>1.8.9</aspectjweaver>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot-starter-web}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${spring-boot-starter-amqp}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-client</artifactId>
+                <version>${rocketmq-client}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tuandai.architecture</groupId>
+                <artifactId>tmm-rabbitmq-producer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tuandai.architecture</groupId>
+                <artifactId>tmm-producer-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectjweaver}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tuandai.architecture</groupId>
+                <artifactId>tmm-rocketmq-producer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tuandai.architecture</groupId>
+                <artifactId>tmm-producer-starter-parent</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <name>nexus-snapshots</name>
+            <url>http://nexus.tuandai.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>maven-releases</id>
+            <name>nexus</name>
+            <url>http://nexus.tuandai.com/repository/maven-public/</url>
+        </repository>
+    </distributionManagement>
+
+
+</project>

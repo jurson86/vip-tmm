@@ -1,0 +1,62 @@
+{
+  "properties": [
+    {
+      "name": "mq.type",
+      "type": "java.lang.String",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMConfigAdapter",
+      "defaultValue": "rabbitmq"
+    },
+    {
+      "name": "spring.tmmService.batch.size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMConfigAdapter",
+      "defaultValue": 2000
+    },
+    {
+      "name": "spring.tmmService.rpcPath",
+      "type": "java.lang.String",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMConfigAdapter"
+    },
+    {
+      "name": "spring.tmmService.check.interval.time",
+      "type": "java.lang.Long",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMConfigAdapter",
+      "defaultValue": 60000
+    },
+    {
+      "name": "rpc.size",
+      "type": "java.lang.Long",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMConfigAdapter",
+      "defaultValue": 104857600
+    },
+    {
+      "name": "send.core.thread.num",
+      "type": "java.lang.Integer",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMConfigAdapter",
+      "defaultValue": 5
+    },
+    {
+      "name": "send.max.thread.num",
+      "type": "java.lang.Integer",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMConfigAdapter",
+      "defaultValue": 200
+    },
+    {
+      "name": "send.queue.size",
+      "type": "java.lang.Integer",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMConfigAdapter",
+      "defaultValue": 5000
+    },
+    {
+      "name": "spring.rabbitmq.tmm.producer.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMConfigAdapter"
+    },
+    {
+      "name": "spring.rabbitmq.tmm.tmmMessage",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMConfigAdapter",
+      "defaultValue": false
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    width: 8px;
+    display: block;
+    background-color: rgba(193, 193, 193, .6);
+}
+::-webkit-scrollbar-track {
+    background-color: rgb(241, 241, 241);
+}
+
+.manager{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	min-width: 1200px;
+}
+
+.header{
+	padding: 0 30px;
+	height: 60px;
+	line-height: 60px;
+	background-color: #495060;
+	color: #fff;
+
+	.title{
+		float: left;
+		width: 200px;
+		font-size: 24px;
+		font-weight: normal;
+		letter-spacing: 1px;
+		color: #fff;
+	}
+
+	.userinfo{
+		float: left;
+	}
+
+	.actions{
+		float: right;
+
+		a{
+			font-size: 14px;
+			color: rgba(255, 255, 255, .7);
+
+			&:hover{
+				color: #fff;
+			}
+		}
+	}
+}
+
+.backstage{
+	position: relative;
+	height: 100%;
+}
+
+.menu{
+	position: absolute !important;
+	top: 60px;
+	left: 0;
+	bottom: 0;
+	width: 250px !important;
+	border-top: 1px solid #fff;
+
+	.ivu-scroll-container{
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		height: inherit !important;
+		background-color: #495060;
+	}
+}
+
+.container{
+	position: absolute !important;
+	top: 60px;
+	left: 250px;
+	right: 0;
+	bottom: 0;
+
+	.ivu-scroll-container{
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		padding: 15px;
+		height: inherit !important;
+	}
+}
+
+.button-box, .mrl{
+	margin: 15px 10px;
+
+	.mr{
+		margin-right: 10px;
+	}
+
+	.date-input{
+		width: 46%;
+	}
+
+	.ivu-col-span-4 {
+        width: 16%;
+        margin-right: .66666667%;
+    }
+}
+
+.page{
+	float: right;
+	margin: 0 10px;
+}
+
+.expand{
+	padding: 10px;
+
+	.expand-title{
+		padding-bottom: 5px;
+		font-weight: bold;
+	}
+}
+
+.ivu-table-border td, .ivu-table-border th{
+	padding: 6px 0 !important;
+}
+
+.content-form{
+	width: 500px;
+}

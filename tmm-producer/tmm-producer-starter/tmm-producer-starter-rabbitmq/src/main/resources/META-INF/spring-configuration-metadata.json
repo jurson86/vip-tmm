@@ -1,0 +1,42 @@
+{
+  "properties": [
+    {
+      "name": "spring.tmmService.uid",
+      "type": "java.lang.String",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMAutoConfiguration"
+    },
+    {
+      "name": "spring.tmmService.check.url",
+      "type": "java.lang.String",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMAutoConfiguration"
+    },
+    {
+      "name": "spring.rabbitmq.tmm.vhost",
+      "type": "java.lang.String",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMAutoConfiguration",
+      "defaultValue": "/"
+    },
+    {
+      "name": "spring.rabbitmq.tmm.ip",
+      "type": "java.lang.String",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMAutoConfiguration",
+      "defaultValue": "default"
+    },
+    {
+      "name": "spring.rabbitmq.tmm.exchange",
+      "type": "java.lang.String",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMAutoConfiguration"
+    },
+    {
+      "name": "spring.rabbitmq.tmm.exchangeType",
+      "type": "java.lang.String",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMAutoConfiguration",
+      "defaultValue": "fanout"
+    },
+    {
+      "name": "spring.rabbitmq.tmm.routeKey",
+      "type": "java.lang.String",
+      "sourceType": "com.tuandai.transaction.producer.config.TMMAutoConfiguration"
+    }
+  ]
+}

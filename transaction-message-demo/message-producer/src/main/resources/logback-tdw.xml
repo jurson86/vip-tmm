@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+	<springProperty scope="context" name="springAppName"
+					source="spring.application.name" />
+	<springProperty scope="context" name="springAppIndex"
+					source="spring.application.index" />
+	<!-- Example for logging into the build folder of your project -->
+	<property name="LOG_FILE"
+			  value="/opt/tuandai/logs/message-producer/running" />
+	<property name="CONSOLE_LOG_PATTERN"
+			  value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+
+	
+	<!-- 文件输出格式 -->
+	<property name="PATTERN"
+			  value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [%thread] %c [%L] -| %msg%n" />
+
+	<appender name="flatfile"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.gz</fileNamePattern>
+			<maxHistory>15</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+			<charset>utf8</charset>
+		</encoder>
+	</appender>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 开发环境 -->
+	<springProfile name="dev">
+		<root level="info">
+			<appender-ref ref="CONSOLE" />
+		</root>
+	</springProfile>
+
+	<!-- 测试环境 -->
+	<springProfile name="test">
+		<root level="debug">
+			<appender-ref ref="flatfile" />
+		</root>
+	</springProfile>
+
+	<!-- 生产环境 -->
+	<springProfile name="prod,perf,prev">
+		<root level="info">
+			<appender-ref ref="flatfile" />
+		</root>
+	</springProfile>
+</configuration>

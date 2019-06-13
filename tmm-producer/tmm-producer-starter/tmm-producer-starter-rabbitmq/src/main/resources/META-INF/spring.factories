@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.tuandai.transaction.producer.config.RabbitConfiguration,\
+  com.tuandai.transaction.producer.config.TMMAutoConfiguration,\
+  com.tuandai.transaction.producer.config.TMMRabbitProperties

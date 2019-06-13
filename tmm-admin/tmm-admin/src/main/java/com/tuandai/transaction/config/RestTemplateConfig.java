@@ -1,0 +1,35 @@
+package com.tuandai.transaction.config;
+
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+
+@Configuration
+public class RestTemplateConfig {
+	 
+	@Bean(value = "loadBalancedRest")
+    @Primary
+    @LoadBalanced
+    public RestTemplate restTemplate() {
+        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        httpRequestFactory.setConnectionRequestTimeout(5000);
+        httpRequestFactory.setConnectTimeout(5000);
+        httpRequestFactory.setReadTimeout(5000);
+
+        return new RestTemplate(httpRequestFactory);
+    }
+
+    @Bean(value = "httpRest")
+    public RestTemplate httpRestTemplate() {
+        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        httpRequestFactory.setConnectionRequestTimeout(5000);
+        httpRequestFactory.setConnectTimeout(5000);
+        httpRequestFactory.setReadTimeout(5000);
+
+        return new RestTemplate(httpRequestFactory);
+    }
+
+}

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2.1.2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<!-- <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script> -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!--侧栏目录生成代码-->
+<script>
+    //标题序号计数器
+    var hCount = [0, 0, 0, 0, 0, 0];
+    //设置计数器
+    function setHCount(number) {
+        //当前计数器加一
+        hCount[number - 1]++;
+        for (var i = number, length = hCount.length; i < length; i++) {
+            //子目录计数器全部置零
+            hCount[i] = 0;
+        }
+    }
+    //重命名目录名称
+    function setHTagValue(item, number) {
+        //获取标题名
+        var text = $(item).get(0).innerHTML;
+        //初始化空字符串
+        var before = "";
+        //生成序号
+        for (var i = 0, length = hCount.length; i < number; i++) {
+            if (i < number - 1)
+                before += hCount[i] + ".";
+            else
+                before += hCount[i] + " ";
+        }
+        //在标题前面加上序号
+        $(item).get(0).innerHTML = before + text;
+    }
+    function renameHTag(item) {
+        var tag = $(item).get(0).localName;
+        if (tag === "h1") {
+            setHCount(1);
+           //console\.log("捕获到标签:%s", tag);
+            setHTagValue(item, 1);
+        }
+        if (tag === "h2") {
+            setHCount(2);
+            //console.log("捕获到标签:%s", tag);
+            setHTagValue(item, 2);
+        }
+        if (tag === "h3") {
+            setHCount(3);
+            //console.log("捕获到标签:%s", tag);
+            setHTagValue(item, 3);
+        }
+        if (tag === "h4") {
+            setHCount(4);
+            //console.log("捕获到标签:%s", tag);
+            setHTagValue(item, 4);
+        }
+        if (tag === "h5") {
+            setHCount(5);
+            //console.log("捕获到标签:%s", tag);
+            setHTagValue(item, 5);
+        }
+        if (tag === "h6") {
+            setHCount(6);
+            //console.log("捕获到标签:%s", tag);
+            setHTagValue(item, 6)
+        }
+    }
+    $(document).ready(function () {
+        $("h1,h2,h3,h4,h5,h6").each(function (i, item) {
+            //给<H>类标签编号
+            renameHTag(item);
+            //获取标签的名字,h1,还是h2
+            var tag = $(item).get(0).localName;
+            //为该标签设置id属性
+            $(item).attr("id", "wow" + i);
+            //添加一个页内超链接,并设置class选择器
+            //      $("#category").append('<a class="new'+tag+'" href="#wow'+i+'">'+$(this).text()+'</a></br>');
+            $("#category").append('<a class="new' + tag + '" href="#wow' + i + '">' + $(item).text() + '</a></br>');
+            //为每一个标题超链接的class属性设置左边距
+            $(".newh1").css("margin-left", 0);
+            $(".newh2").css("margin-left", 20);
+            $(".newh3").css("margin-left", 40);
+            $(".newh4").css("margin-left", 60);
+            $(".newh5").css("margin-left", 80);
+            $(".newh6").css("margin-left", 100);
+        });
+        //设置class选择器为.book-body的html内容
+        $(".book-body").html($(".book-body").nextAll())
+    });
+</script>
+<style type="text/css">
+    @media (max-width: 1600px) {
+        .book-body {
+            /* padding-left: 200px; */
+            padding-right: 0px;
+        }
+    }
+    @media (max-width: 1400px) {
+        .book-body {
+            /* padding-left: 200px; */
+            padding-right: 0px;
+        }
+    }
+    @media (max-width: 1200px) {
+        .book-body {
+            /* padding-left: 300px; */
+            padding-left: 0px;
+        }
+    }
+    @media (max-width: 700px) {
+        .book-body {
+            padding-left: 0px;
+        }
+    }
+    @media (min-width: 600px) {
+        #category {
+            /* 绝对定位 */
+            position: fixed;
+            /* left: 20px; */
+            /* 目录显示的位置 */
+            right: 0px;
+            top: 0;
+            /* 目录栏的高度,这里设置为60%主要是为了不挡住返回顶部和折叠按钮 */
+            height: 79%;
+            /* 开启垂直滚动条 */
+            overflow-y: scroll;
+            /* 开启水平滚动条 */
+            overflow-x: scroll;
+        }
+    }
+    @media (-webkit-max-device-pixel-ratio: 1) {
+        ::-webkit-scrollbar-track-piece {
+            background-color: #FFF
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #c2c2c2;
+            background-clip: padding-box;
+            min-height: 28px
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #A0A0A0
+        }
+    }
+</style>
+<script>
+    // id="category" onclick="showOrCloseCategory()"
+    function showOrCloseCategory() {
+        var id = document.getElementById("category");
+        var book_body=document.getElementById("book_body");
+        //如果展开了
+        if (id.style.display == 'block') {
+            //console.log("开始展开");
+            id.style.display='none';
+            id.style.width="0%";
+            book_body.style.width="100%";
+            book_body.style.paddingleft=0;
+        }
+        //如果被折叠了
+        else if (id.style.display =='none') {
+            //console.log("开始折叠");
+            id.style.display = 'block';
+            book_body.style.width="90%";
+            id.style.width="20%"
+        }
+    }
+</script>
+<!--返回顶部-->
+<a href="javascript:scroll(0,0)" style="position:fixed;float:right;right:40px;top:80%">返回顶部</a>
+<button onclick="showOrCloseCategory()" style="position:fixed;float:right;right:40px;top:85%">折叠/展开</button>
+<!--文章主体部分-->
+<div class="book-body" id="book_body" style="width:90%;display:block"> </div>
+<!--目录栏，设置占用宽度为20%可以根据实际情况设置-->
+<div  class="book-summary" id="category" style="width:20%;display:block" ></div>
+</head>
+<body>
+<h1>接入方案</h1>
+<h2>springboot默认方式 【RABBITMQ】</h2>
+<h3>pom.xml :</h3>
+<pre><code>// 引用 jar依赖
+//  &lt;dependency&gt;
+//      &lt;groupId&gt;com.tuandai.architecture&lt;/groupId&gt;
+//      &lt;artifactId&gt;tmm-producer-starter-rabbitmq &lt;/artifactId&gt;
+//      &lt;version&gt;2.0.0-SNAPSHOT&lt;/version&gt;
+//  &lt;/dependency&gt;
+</code></pre>
+
+<h3>application 配置：</h3>
+<pre>
+
+#rabbitmq 配置：
+## 自动配置TOPIC默认信息,采用自动配置时才配置
+spring.rabbitmq.tmm.producer.enabled = true
+spring.rabbitmq.tmm.vhost = TMM
+spring.rabbitmq.tmm.exchangeType = fanout
+spring.rabbitmq.tmm.exchange = mychange
+spring.rabbitmq.tmm.routeKey = my
+spring.rabbitmq.tmm.ip = default
+
+## 单mq服务 : default
+spring.rabbitmq.default.host = 10.100.11.73
+spring.rabbitmq.default.port = 5672
+spring.rabbitmq.default.username = gus
+spring.rabbitmq.default.password = gus
+## 多mq服务，可继续拓展 : first
+spring.rabbitmq.first.host = 10.100.14.6
+spring.rabbitmq.first.port = 5672
+spring.rabbitmq.first.username = gus
+spring.rabbitmq.first.password = gus
+
+
+# rpc文件配置:
+## 单次批处理元数据大小
+spring.tmmService.batch.size = 2000  
+## 判定为check数据的时间间隔
+spring.tmmService.check.interval.time = 5000  
+## check 回调地址，注：可访问地址为： http://ip:port/{server.context-path} + {spring.tmmService.check.url}
+spring.tmmService.check.url = /my/check  
+spring.tmmService.uid = random
+## 此处必须配置数据盘路径，如果不配置默认当前jar包路径；
+spring.tmmService.rpcPath = /data/log/appname1 
+
+</pre>
+<p>其他非标配置（特殊情况更改）：</p>
+<pre>
+## mq类型
+mq.type = rabbitmq
+
+## rpc文件的切割大小100 * 1024 *1024L = 104857600
+rpc.size = 104857600 
+
+## 发送核心线程数，可根据服务器CPU内核数配置
+send.core.thread.num = 4
+## 发送mq线程的队列大小
+send.queue.size = 5000
+
+## 访问web服务的根地址，用于tmm-admin控制台回调check的时候用到；
+server.context-path = /
+
+## 是否采用tmm 自己封装的消息体（消息体是否封装包含uid），兼容老版本，新版本使用false（不包含tmm基础信息，只有消息）
+spring.rabbitmq.tmm.tmmMessage = false
+
+</pre>
+<h3>自动配置发送- 可靠消息</h3>
+<pre>
+/*
+采用配置文件中自动配置TOPIC信息：
+spring.rabbitmq.tmm.vhost = TMM
+spring.rabbitmq.tmm.exchangeType = fanout
+spring.rabbitmq.tmm.exchange = mychange
+spring.rabbitmq.tmm.routeKey = my
+spring.rabbitmq.tmm.ip = default
+*/
+
+
+/* 
+发送消息代码
+添加注解：
+@TmmAutoConfig(isAuto = true)
+*/
+    @RequestMapping(value = "/producer/no/tran", method = RequestMethod.GET)
+    @TmmAutoConfig(isAuto = true)
+    public String noProducer2(@RequestParam String msg) throws IOException {
+
+        MqLog mqLog = new MqLog();
+        mqLog.setMessage("hello no trans");
+
+        // TODO 业务代码
+
+        tMMService.sendNTrans(mqLog);
+        return msg;
+    }
+
+</pre>
+<h3>自定义TOPIC发送- 可靠消息</h3>
+<pre>
+
+	@RequestMapping(value = "/producer/no/tran", method = RequestMethod.GET)
+	public String noProducer(@RequestParam String msg) throws IOException {
+
+		// 可自定义发送消息id
+		String msgId = UUID.randomUUID().toString();
+
+		// 记录发送的TOPIC,其中ip为配置文件里对应的，rabbitmq服务，如上配置的： default 、 first
+		RabbitMQTopic rabbitMQTopic = RabbitMQTopic.newRabbitMQTopicBuilder()
+				.vHost("TMM")
+				.exchange("mychange")
+				.exchangeType(ExchangeType.FANOUT.des())
+				.ip( msg.equals("first").build();
+		MqLog mqLog = new MqLog();
+		mqLog.setMessage("hello no trans");
+		mqLog.setServiceName("transaction-producer");
+		mqLog.setTopic(rabbitMQTopic.toJSONString());
+		mqLog.setUid(msgId);
+
+		// 消息发送
+		tMMService.sendNTrans(mqLog);
+		return msg;
+	}
+
+</pre>
+<h3>自动配置发送- 事务消息</h3>
+<pre>
+/*
+采用配置文件中自动配置TOPIC信息：
+spring.rabbitmq.tmm.vhost = TMM
+spring.rabbitmq.tmm.exchangeType = fanout
+spring.rabbitmq.tmm.exchange = mychange
+spring.rabbitmq.tmm.routeKey = my
+spring.rabbitmq.tmm.ip = default
+*/
+
+
+/* 
+发送消息代码
+添加注解：
+@TmmAutoConfig(isAuto = true)
+*/
+    @RequestMapping(value = "/producer1", method = RequestMethod.GET)
+    @TmmAutoConfig(isAuto = true)
+    public String Producer1(@RequestParam String hello) throws IOException {
+
+        logger.info("接受到请求,hello:{}", hello);
+        try
+        {
+
+            // 打印开始日志,其中check默认为配置里面的check地址，也可在此处变更；
+            BeginLog beginLog = BeginLog.newBeginLogBuilder()
+                    .check("/msg/tmm/check").build();
+            tMMService.sendTransBeginToFlume(beginLog);
+
+            // TODO 业务执行代码
+
+            // 打印结束日志
+            EndLog endLog = EndLog.newEndLogBuilder()
+                    .state(SendState.COMMIT)
+                    .message("hello world").build();
+            tMMService.sendTransEndToFlume(endLog);
+        }
+        catch (Exception e){
+
+            // 打印结束日志
+            EndLog endLog = EndLog.newEndLogBuilder()
+                    .state(SendState.CANCEL).build();
+            tMMService.sendTransEndToFlume(endLog);
+
+            // TODO 业务异常
+        }
+
+        return hello;
+    }
+
+</pre>
+<h3>自定义TOPIC发送- 事务消息</h3>
+<pre>
+
+
+	/**
+	 *  默认方式发送- 事务消息
+	 *
+	 * @param hello
+	 * @return
+	 */
+	@RequestMapping(value = "/producer", method = RequestMethod.GET)
+	public String Producer(@RequestParam String hello) throws IOException {
+
+		logger.info("接受到请求,hello:{}", hello);
+		// 可自定义发送消息id
+		String msgId = UUID.randomUUID().toString();
+
+		try
+		{
+
+			// 记录发送的TOPIC,其中ip为配置文件里对应的，rabbitmq服务，如上配置的： default 、 first
+			RabbitMQTopic rabbitMQTopic = RabbitMQTopic.newRabbitMQTopicBuilder()
+					.vHost("myVhost")
+					.exchange("mychange")
+					.exchangeType(ExchangeType.FANOUT.des())
+					.ip("default").build();
+
+			// 打印开始日志,其中check默认为配置里面的check地址，也可在此处变更；
+			BeginLog beginLog = BeginLog.newBeginLogBuilder()
+					.check("/msg/tmm/check")
+					.serviceName("transaction-producer")
+					.topic(rabbitMQTopic.toJSONString())
+					.uid(msgId).build();
+			tMMService.sendTransBeginToFlume(beginLog);
+
+			// TODO 业务执行代码
+
+			// 打印结束日志
+			EndLog endLog = EndLog.newEndLogBuilder()
+					.state(SendState.COMMIT)
+					.message("hello world")
+					.uid(msgId).build();
+			tMMService.sendTransEndToFlume(endLog);
+		}
+		catch (Exception e){
+		    
+			// 打印结束日志
+			EndLog endLog = EndLog.newEndLogBuilder()
+					.state(SendState.CANCEL)
+					.uid(msgId).build();
+			tMMService.sendTransEndToFlume(endLog);
+
+			// TODO 业务异常
+		}
+
+		return hello;
+	}
+
+
+</pre>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

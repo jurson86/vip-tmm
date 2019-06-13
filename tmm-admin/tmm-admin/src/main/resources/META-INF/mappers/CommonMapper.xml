@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tuandai.CommonMapper">
+    <sql id = "limiter">
+        <if test="limiter != null">
+            <if test="limiter.sortStr != null">
+                ORDER BY ${limiter.sortStr}
+            </if>
+            <if test="limiter.offset != null and limiter.size != null">
+                LIMIT #{limiter.offset}, #{limiter.size}
+            </if>
+        </if>
+    </sql>
+</mapper>

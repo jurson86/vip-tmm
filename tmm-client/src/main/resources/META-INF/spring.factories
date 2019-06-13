@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.tuandai.transaction.client.config.TMMConfiguration,\
+  com.tuandai.transaction.client.controller.TMMController

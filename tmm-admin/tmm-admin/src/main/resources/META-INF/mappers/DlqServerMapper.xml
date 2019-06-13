@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuandai.transaction.repository.DlqServerRepository">
+    <resultMap id="t_dlq_server_map" type="com.tuandai.transaction.domain.DlqServer">
+        <result column="pid" property="pid"/>
+        <result column="service_name" property="serviceName"/>
+        <result column="dlq_name" property="dlqName"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="t_dlq_server_columns">
+        pid, service_name ,update_time, create_time, dlq_name
+    </sql>
+
+    <update id="createDlqServerTable">
+        CREATE TABLE IF NOT EXISTS `t_dlq_server` (
+          `pid` int(11) NOT NULL AUTO_INCREMENT,
+          `dlq_name` varchar(255) DEFAULT NULL,
+          `service_name` varchar(255) DEFAULT NULL,
+          `update_time` datetime DEFAULT NULL,
+          `create_time` datetime DEFAULT NULL,
+          PRIMARY KEY (`pid`),
+        UNIQUE KEY `i_dlq` (`dlq_name`,`service_name`) USING BTREE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+
+    <select id="queryDlqServerByQueueName" resultMap="t_dlq_server_map">
+        SELECT
+        <include refid="t_dlq_server_columns"/>
+        FROM
+        t_dlq_server
+        WHERE
+        1=1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(queueName)">
+            AND dlq_name = #{queueName}
+        </if>
+    </select>
+
+    <select id="queryDlqServerQueList" resultMap="t_dlq_server_map">
+        SELECT
+        <include refid="t_dlq_server_columns"/>
+        FROM
+        t_dlq_server
+        WHERE
+        1=1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(serviceName)">
+           AND service_name = #{serviceName}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(queueName)">
+            AND dlq_name = #{queueName}
+        </if>
+    </select>
+
+    <delete id="deleteDlqServer">
+        DELETE FROM t_dlq_server
+        WHERE 1=1
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(queueName)">
+         AND dlq_name = #{queueName}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(serviceName)">
+            AND  service_name = #{serviceName}
+        </if>
+    </delete>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from t_dlq_server
+        where pid = #{pid}
+    </delete>
+
+    <update id="updateDlqServer">
+        UPDATE  t_dlq_server
+        <set >
+            <if test="afterServiceName != null" >
+                service_name = #{afterServiceName},
+            </if>
+
+            update_time = NOW()
+
+        </set>
+        WHERE service_name = #{beforeServiceName}
+    </update>
+
+    <insert id="addDlqServer">
+        INSERT INTO `t_dlq_server`
+        (`service_name`, `dlq_name`, `update_time`, `create_time`)
+        VALUES
+            (
+            #{alqServer.serviceName},
+            #{alqServer.dlqName},
+            #{alqServer.updateTime},
+            #{alqServer.createTime}
+            )
+        on DUPLICATE key update update_time = NOW()
+    </insert>
+
+</mapper>

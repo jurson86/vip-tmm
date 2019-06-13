@@ -1,0 +1,1 @@
+com.tuandai.transaction.client.consumer.annotation.EnableTmmConsumer=com.tuandai.transaction.client.consumer.config.TmmConfigure

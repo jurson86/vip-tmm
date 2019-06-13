@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuandai.transaction.repository.TransactionCheckRepository">
+
+    <resultMap id="result_transaction_check_map" type="com.tuandai.transaction.domain.TransactionCheck">
+        <result column="uid" property="uId" jdbcType="VARCHAR"/>
+        <result column="pid" property="pid" jdbcType="BIGINT"/>
+        <result column="service_name" property="serviceName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="message_topic" property="messageTopic" jdbcType="VARCHAR"/>
+        <result column="message_state" property="messageState" jdbcType="TINYINT"/>
+        <result column="message_send_threshold" property="messageSendThreshold" jdbcType="TINYINT"/>
+        <result column="message_send_times" property="messageSendTimes" jdbcType="TINYINT"/>
+        <result column="message_next_send_time" property="messageNextSendTime" jdbcType="TIMESTAMP"/>
+        <result column="presend_back_url" property="presendBackUrl" jdbcType="VARCHAR"/>
+        <result column="presend_back_method" property="presendBackMethod" jdbcType="VARCHAR"/>
+        <result column="presend_back_threshold" property="presendBackThreshold" jdbcType="TINYINT"/>
+        <result column="presend_back_send_times" property="presendBackSendTimes" jdbcType="TINYINT"/>
+        <result column="presend_back_next_send_time" property="presendBackNextSendTime" jdbcType="TIMESTAMP"/>
+        <result column="message" property="message"/>
+        <result column="dlq_name" property="dlqName"/>
+        <result column="cluster_ip" property="clusterIp"/>
+        <result column="mq_type" property="mqType"/>
+    </resultMap>
+    
+    <sql id="transaction_check_column">
+        `pid`,                          `uid`,                         `service_name`,               `message_topic`,
+        `message_state`,                `message_send_threshold`,       `message_send_times`,         `message_next_send_time`,
+        `presend_back_url`,             `presend_back_method`,          `presend_back_threshold`,     `presend_back_send_times`,
+        `presend_back_next_send_time`,  `update_time`,                  `create_time`,                `dlq_name`,
+        `cluster_ip`,                    `mq_type`
+    </sql>
+
+    <select id="queryTransactionCheckByIds" resultMap="result_transaction_check_map">
+        SELECT
+        <include refid="transaction_check_column"/> , message
+        FROM
+        t_transaction_state as t_ts
+        WHERE
+        t_ts.pid in
+        <foreach collection="pids" open="(" close=")" separator=" , " item="pid">
+            #{pid}
+        </foreach>
+        ;
+    </select>
+
+    <select id="queryTransactionCheckById" resultMap="result_transaction_check_map">
+        SELECT
+         <include refid="transaction_check_column"/> , message
+        FROM
+        t_transaction_state as t_ts
+        WHERE
+             t_ts.pid = #{pid}
+             and
+              t_ts.service_name in
+             <foreach collection="serviceNames" open="(" close=")" separator=" , " item="serviceName">
+              #{serviceName}
+             </foreach>
+        ;
+    </select>
+
+    <update id="createIfNotExistsTable">
+       CREATE TABLE IF NOT EXISTS `t_transaction_state` (
+          `pid` int(11) NOT NULL AUTO_INCREMENT,
+          `uid` varchar(255) CHARACTER SET utf8 NOT NULL,
+          `service_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+          `dlq_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '死信队列名字',
+          `cluster_ip` varchar(255) NOT NULL COMMENT 'mq集群',
+          `mq_type` int(11) NOT NULL DEFAULT '2' COMMENT ' 1:rocketmq, 2:rabbitmq',
+          `message_topic` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+          `message_state` tinyint(3) unsigned NOT NULL DEFAULT '10' COMMENT '消息状态: 10 预发送 ,20 发送,30 完成,40 废弃',
+          `message_send_threshold` tinyint(4) DEFAULT '0' COMMENT '消息发送的最大次数',
+          `message_send_times` tinyint(4) DEFAULT '0' COMMENT '消息发送的总次数',
+          `message_next_send_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '下次发送时间',
+          `presend_back_url` varchar(1024) CHARACTER SET utf8 DEFAULT NULL COMMENT '消息回调地址',
+          `presend_back_method` varchar(10) CHARACTER SET utf8 DEFAULT NULL COMMENT '回调方法类型 ，“post”，“get”',
+          `presend_back_threshold` tinyint(4) DEFAULT '0' COMMENT '预发送回调最大次数',
+          `presend_back_send_times` tinyint(4) DEFAULT '0' COMMENT '预发送回调的当前次数',
+          `presend_back_next_send_time` datetime NOT NULL DEFAULT '1970-01-01 08:00:00' COMMENT '下次预发送触发时间',
+          `message` text CHARACTER SET utf8 COMMENT '0 未删除， 1 删除',
+          `update_time` datetime NOT NULL,
+          `create_time` datetime NOT NULL,
+          PRIMARY KEY (`pid`),
+          KEY `i_type` (`message_state`) USING BTREE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO t_transaction_state (
+        `uid`,
+        `service_name`,
+        `dlq_name`,
+        `cluster_ip`,
+        `mq_type`,
+        `message_topic`,
+        `message_state`,
+        `message_send_threshold`,
+        `message_send_times`,
+        `message_next_send_time`,
+        `presend_back_url`,
+        `presend_back_method`,
+        `presend_back_threshold`,
+        `presend_back_send_times`,
+        `presend_back_next_send_time`,
+        `message`,
+        `update_time`,
+        `create_time`
+        ) VALUES
+        <foreach collection="list" separator=" , "  item="transactionState">
+            (
+            #{transactionState.uId},
+            #{transactionState.serviceName},
+            #{transactionState.dlqName},
+            #{transactionState.clusterIp},
+            #{transactionState.mqType},
+            #{transactionState.messageTopic},
+            #{transactionState.messageState},
+            #{transactionState.messageSendThreshold},
+            #{transactionState.messageSendTimes},
+            #{transactionState.messageNextSendTime},
+            #{transactionState.presendBackUrl},
+            #{transactionState.presendBackMethod},
+            #{transactionState.presendBackThreshold},
+            #{transactionState.presendBackSendTimes},
+            #{transactionState.presendBackNextSendTime},
+            #{transactionState.message},
+            #{transactionState.updateTime},
+            #{transactionState.createTime}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryTransactionCheckByFilter" resultMap="result_transaction_check_map">
+        SELECT
+        <include refid="transaction_check_column"/>
+        <if test="filter.isMessage == 1"> , message</if>
+        FROM
+        t_transaction_state as t_ts
+        <where>
+            <if test="filter != null">
+                <if test="filter.messageState != null">
+                    AND t_ts.message_state = #{filter.messageState}
+                </if>
+                <if test="filter.endPresendBackNextSendTime != null">
+                    <![CDATA[AND t_ts.presend_back_next_send_time <= #{filter.endPresendBackNextSendTime}]]>
+                </if>
+                <if test="filter.endMessageNextSendTime != null">
+                    <![CDATA[AND t_ts.message_next_send_time <= #{filter.endMessageNextSendTime}]]>
+                </if>
+                <if test="filter.pid != null">
+                    AND t_ts.pid = #{filter.pid}
+                </if>
+                <if test="filter.serviceNames != null and filter.serviceNames.size() > 0">
+                    AND t_ts.service_name in
+                    <foreach collection="filter.serviceNames" open="(" close=")" item="serviceName" separator=",">
+                        #{serviceName}
+                    </foreach>
+                </if>
+                <if test="filter.startUpdateTime != null">
+                    <![CDATA[ AND t_ts.update_time >= #{filter.startUpdateTime}]]>
+                </if>
+                <if test="filter.endUpdateTime != null">
+                    <![CDATA[  AND t_ts.update_time < #{filter.endUpdateTime}]]>
+                 </if>
+                <if test="filter.dlqName != null">
+                    AND t_ts.dlq_name = #{filter.dlqName}
+                </if>
+            </if>
+        </where>
+        <include refid="com.tuandai.CommonMapper.limiter"/>
+    </select>
+
+    <update id="update" parameterType="com.tuandai.transaction.domain.TransactionCheck">
+        update
+        t_transaction_state as t_ts
+        <set>
+            update_time = #{updateTime},
+            <if test="serviceName != null"> t_ts.service_name = #{serviceName},</if>
+            <if test="messageTopic != null">t_ts.message_topic  = #{messageTopic},</if>
+            <if test="messageState != null"> t_ts.message_state  = #{messageState},</if>
+            <if test="messageSendThreshold != null">t_ts.message_send_threshold  = #{messageSendThreshold},</if>
+            <if test="messageSendTimes != null">t_ts.message_send_times  = #{messageSendTimes},</if>
+            <if test="messageNextSendTime != null"> t_ts.message_next_send_time  = #{messageNextSendTime},</if>
+            <if test="presendBackUrl != null">t_ts.presend_back_url  = #{presendBackUrl},</if>
+            <if test="presendBackMethod != null">t_ts.presend_back_method  = #{presendBackMethod},</if>
+            <if test="presendBackThreshold != null">t_ts.presend_back_threshold = #{presendBackThreshold},</if>
+            <if test="presendBackSendTimes != null">t_ts.presend_back_send_times  = #{presendBackSendTimes},</if>
+            <if test="presendBackNextSendTime != null">t_ts.presend_back_next_send_time  = #{presendBackNextSendTime},</if>
+            <if test="message != null">t_ts.message = #{message},</if>
+        </set>
+        WHERE
+        t_ts.pid = #{pid};
+    </update>
+
+    <delete id="deleteAll">
+        DELETE FROM t_transaction_state;
+    </delete>
+
+    <select id="messageStateCountMap" resultType="com.tuandai.transaction.bo.TwoTuple">
+        SELECT message_state as a , count(*) as b
+        FROM t_transaction_state
+        <where>
+          <if test="serviceNames != null and serviceNames.size() > 0">
+              service_name IN
+              <foreach collection="serviceNames" open="(" close=")" item="serviceName" separator=" , ">
+                  #{serviceName}
+              </foreach>
+          </if>
+        </where>
+        GROUP BY message_state
+    </select>
+
+    <select id="dlqList" resultType="com.tuandai.transaction.bo.TwoTuple">
+        SELECT dlq_name as a , count(*) as b
+	    FROM t_transaction_state
+        WHERE message_state = 11 <!--  11 表示异常消息-->
+        and service_name IN
+        <foreach collection="serviceNames" open="(" close=")" item="serviceName" separator=" , ">
+            #{serviceName}
+        </foreach>
+	    GROUP BY dlq_name
+    </select>
+
+    <delete id="delete">
+        DELETE FROM t_transaction_state
+        WHERE
+        pid in
+        <foreach collection="pids" separator=" , "  open = "(" close = ")" item="pid">
+            #{pid}
+        </foreach>
+        and service_name IN
+        <foreach collection="serviceNames" open="(" close=")" item="serviceName" separator=" , ">
+            #{serviceName}
+        </foreach>
+    </delete>
+
+</mapper>

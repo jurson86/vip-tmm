@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tuandai.transaction.repository.MqClusterRepository">
+
+    <resultMap id="t_mq_cluster_map" type="com.tuandai.transaction.domain.MqCluster">
+        <result column="pid" property="pid"/>
+        <result column="mq_key" property="mqKey"/>
+        <result column="host" property="host"/>
+        <result column="port" property="port"/>
+        <result column="user_name" property="userName"/>
+        <result column="pass_word" property="passWord"/>
+        <result column="admin_url" property="adminUrl"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="t_mq_cluster_columns">
+        pid, mq_key, host, port, user_name, pass_word, admin_url, update_time, create_time
+    </sql>
+
+    <update id="createMqClusterTable">
+        CREATE TABLE IF NOT EXISTS `t_mq_cluster` (
+          `pid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+          `mq_key` varchar(255) NOT NULL COMMENT '地址唯一标示',
+          `host` varchar(255) DEFAULT NULL,
+          `port` int(11) DEFAULT NULL,
+          `user_name` varchar(255) DEFAULT NULL,
+          `pass_word` varchar(255) DEFAULT NULL COMMENT '明文存储',
+          `admin_url` varchar(255) DEFAULT NULL,
+          `create_time` datetime NOT NULL,
+          `update_time` datetime NOT NULL,
+          PRIMARY KEY (`pid`),
+          UNIQUE KEY `i_mq_key` (`mq_key`) USING HASH,
+          UNIQUE KEY `i_host_port` (`host`,`port`) USING BTREE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+
+    <insert id="addMqClusters">
+        INSERT INTO `t_mq_cluster`
+        (`mq_key`, `host`, `port`, `user_name`, `pass_word`, `admin_url`, `create_time`, `update_time`)
+        VALUES
+        <foreach collection="mqClusters" separator=" , " item="mqCluster">
+            (
+            #{mqCluster.mqKey},
+            #{mqCluster.host},
+            #{mqCluster.port},
+            #{mqCluster.userName},
+            #{mqCluster.passWord},
+            #{mqCluster.adminUrl},
+            #{mqCluster.createTime},
+            #{mqCluster.updateTime}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteMqCluster">
+      DELETE FROM
+        t_mq_cluster
+      WHERE
+         pid in
+         <foreach collection="pids" open="(" close=")" separator=" , " item="pid">
+             #{pid}
+         </foreach>
+    </delete>
+
+    <select id="queryMqClusterByFilter" resultMap="t_mq_cluster_map">
+        SELECT
+          <include refid="t_mq_cluster_columns"/>
+        FROM
+          t_mq_cluster t
+        <where>
+            <if test="filter != null">
+                <if test="filter.pid != null">
+                  AND t.pid = #{filter.pid}
+                </if>
+                <if test="filter.mqKey != null">
+                  AND t.mq_key = #{filter.mqKey}
+                </if>
+                <if test="filter.host != null">
+                  AND t.host = #{filter.host}
+                </if>
+                <if test="filter.port != null">
+                  AND t.port = #{filter.port}
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <update id="updateMqCluster">
+       UPDATE `t_mq_cluster` t
+       SET
+        <if test="mqCluster.mqKey != null">
+            t.mq_key = #{mqCluster.mqKey},
+        </if>
+        <if test="mqCluster.host != null">
+            t.host = #{mqCluster.host},
+        </if>
+        <if test="mqCluster.port != null">
+            t.port = #{mqCluster.port},
+        </if>
+        <if test="mqCluster.userName != null">
+            t.user_name = #{mqCluster.userName},
+        </if>
+        <if test="mqCluster.passWord != null">
+            t.pass_word = #{mqCluster.passWord},
+        </if>
+        <if test="mqCluster.adminUrl != null">
+            t.admin_url = #{mqCluster.adminUrl},
+        </if>
+           t.update_time = #{mqCluster.updateTime}
+       WHERE
+         t.pid = #{mqCluster.pid}
+    </update>
+
+</mapper>

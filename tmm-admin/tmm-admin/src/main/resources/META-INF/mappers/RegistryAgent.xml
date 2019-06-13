@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuandai.transaction.repository.RegistryAgentRepository">
+    <resultMap id="t_registry_agent_map" type="com.tuandai.transaction.domain.RegistryAgent">
+        <result column="pid" property="pid"/>
+        <result column="prefix_url" property="prefixUrl"/>
+        <result column="service_name" property="serviceName"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="t_registry_agent_columns">
+        pid, service_name ,update_time, create_time, prefix_url
+    </sql>
+
+    <update id="createRegistryAgentTable">
+          CREATE TABLE IF NOT EXISTS  `t_registry_agent` (
+          `pid` bigint(20) NOT NULL AUTO_INCREMENT,
+          `prefix_url` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+          `service_name` varchar(255) CHARACTER SET latin1 NOT NULL,
+          `update_time` datetime NOT NULL,
+          `create_time` datetime DEFAULT NULL,
+          PRIMARY KEY (`pid`),
+          UNIQUE KEY `i_service_name` (`service_name`) USING BTREE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+
+    <select id="queryRegistryAgentAll" resultMap="t_registry_agent_map">
+        SELECT
+          <include refid="t_registry_agent_columns"/>
+        FROM
+          t_registry_agent
+    </select>
+
+    <select id="queryRegistryAgentByServerName" resultMap="t_registry_agent_map">
+        SELECT
+        <include refid="t_registry_agent_columns"/>
+        FROM
+        t_registry_agent
+        WHERE
+        service_name = #{serviceName}
+    </select>
+
+    <delete id="deleteRegistryAgentById" parameterType="java.util.List">
+        DELETE FROM t_registry_agent
+        WHERE pid IN
+        <foreach collection="list" separator="," open="(" close=")" item="pid">
+          #{pid}
+        </foreach>
+    </delete>
+
+    <insert id="addRegistryAgent" parameterType="java.util.List">
+        INSERT INTO `t_registry_agent`
+        (`service_name`, `prefix_url`, `update_time`, `create_time`)
+        VALUES
+        <foreach collection="list" separator="," item="agent">
+            (
+              #{agent.serviceName},
+              #{agent.prefixUrl},
+              #{agent.updateTime},
+              #{agent.createTime}
+            )
+        </foreach>
+        on  DUPLICATE key update update_time = NOW()
+    </insert>
+
+    <select id="selectByPrimaryKey" resultMap="t_registry_agent_map" parameterType="java.lang.Integer" >
+        select
+        <include refid="t_registry_agent_columns" />
+        from t_registry_agent
+        where pid = #{pid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from t_registry_agent
+        where pid = #{pid,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insertSelective" useGeneratedKeys="true" parameterType="com.tuandai.transaction.domain.RegistryAgent" keyProperty="pid">
+        insert into t_registry_agent
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="pid != null" >
+                pid,
+            </if>
+            <if test=" serviceName!= null" >
+                service_name,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="pid != null" >
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="serviceName != null" >
+                #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tuandai.transaction.domain.RegistryAgent" >
+        update t_registry_agent
+        <set >
+            <if test="serviceName != null" >
+                service_name = #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where pid = #{pid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tuandai.transaction.domain.RegistryAgent" >
+        update t_registry_agent
+        set service_name = #{serviceName,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        prefix_url = #{prefixUrl,jdbcType=VARCHAR}
+        where pid = #{pid,jdbcType=INTEGER}
+    </update>
+
+    <select id="queryApplicationListByParams"  parameterType="map" resultMap="t_registry_agent_map">
+        SELECT  <include refid="t_registry_agent_columns"/>
+        FROM  t_registry_agent
+        WHERE
+        1=1
+        <if test="map.applicationId!=null">
+            AND pid =#{map.applicationId}
+        </if>
+        <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.applicationName)">
+            AND service_name like CONCAT('%#',#{map.applicationName},'%')  ESCAPE '#'
+        </if>
+
+        <if test="@org.apache.commons.lang3.StringUtils@isNotEmpty(map.insertApplicationName)">
+            AND service_name = #{map.insertApplicationName}
+        </if>
+
+        <if test="map.startDate!=null">
+            AND date_format(create_time, '%Y-%m-%d %H:%i:%s' ) &gt;=  #{map.startDate}
+        </if>
+        <if test="map.endDate!=null">
+            AND date_format(create_time, '%Y-%m-%d %H:%i:%s') &lt;= #{map.endDate}
+        </if>
+        ORDER BY  create_time DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,25 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: tmm-admin
+    index: 0
+
+  profiles:
+    active: dev
+
+  cloud:
+    config:
+      profile: dev
+      failFast: true
+      discovery:
+        serviceId: config-server
+        enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "${EUREKA_URL}"
+
+debug: true

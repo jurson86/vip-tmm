@@ -1,0 +1,92 @@
+#主配置文件，配置了这个会优先读取里面的属性覆盖主配置文件的属性
+spring:
+  profiles:
+    active: dev
+
+  rocketmq:
+    name-server: 10.100.11.75:9876
+    producer:
+      group: transaction-group
+      send-msg-timeout: 30000
+
+  datasource: # 数据库配置
+    password: root
+    username: root
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.100.11.75:3306/trans_test?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&&useSSL=false
+
+  application:
+    name: transaction-producer
+
+   # rabbitMq 配置
+  rabbitmq:
+    tmm:
+      producer:
+        enabled: true
+      vhost: TMM
+      exchangeType: fanout
+      exchange: mychange
+      routeKey: my
+      ip: default
+
+    first:   # 集群mq
+      host: 10.100.14.6
+      port: 5672
+      username: gus
+      password: gus
+
+    default:  # 单机mq
+      host: 10.100.11.73
+      port: 5672
+      username: gus
+      password: gus
+
+   # rpc文件配置
+   #spring.tmmService.rpcPath=
+  tmmService:
+    batch:
+      size: 2000
+    check:
+      interval.time: 5000
+      url: /my/check
+    uid: random # 5秒
+
+#端口配置
+server:
+  port: 8080
+  context-path: /test
+
+#massge manage url
+massage:
+  manage:
+    url: http://10.100.11.74:8081
+
+
+# 应用自定义配置
+logging:
+  config: classpath:logback-tdw.xml
+
+
+mybatis:
+  config-location: classpath:META-INF/mybatis-config.xml
+
+
+
+#eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+eureka:
+  client:
+    service-url.defaultZone: http://10.100.11.217:21111/eureka/
+  instance:
+    ip-address: 10.100.14.13
+    prefer-ip-address: true
+    instanceId: ${spring.application.name}:${random.int[1000,10000]}
+
+rpc:
+  size: 102400
+debug: true
+
+#mq:
+#  type: rocketmq
+
+#url前缀
+#spring.url.prefix=/

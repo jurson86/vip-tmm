@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--<settings>-->
+        <!--<setting name="logImpl" value="STDOUT_LOGGING" />-->
+    <!--</settings>-->
+    <typeAliases>
+        <package name="com.tuandai.transaction.domain"/>
+    </typeAliases>
+
+
+   <!--<mappers>-->
+        <!--<mapper resource="META-INF/mappers/TransactionCheckMapper.xml"/>-->
+        <!--<mapper resource="META-INF/mappers/CommonMapper.xml"/>-->
+        <!--<mapper resource="META-INF/mappers/MonitorAgent.xml"/>-->
+        <!--<mapper resource="META-INF/mappers/RegistryAgent.xml"/>-->
+        <!--<mapper resource="META-INF/mappers/DlqServerMapper.xml"/>-->
+       <!--<mapper resource="META-INF/mappers/ApplicationMapper.xml"/>-->
+       <!--<mapper resource="META-INF/mappers/RoleMapper.xml"/>-->
+       <!--<mapper resource="META-INF/mappers/RolePermissionMapper.xml"/>-->
+       <!--<mapper resource="META-INF/mappers/RoleUserMapper.xml"/>-->
+       <!--<mapper resource="META-INF/mappers/UserMapper.xml"/>-->
+    <!--</mappers>-->
+
+
+
+</configuration>

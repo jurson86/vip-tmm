@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: td-tccDemo-service
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "${EUREKA_URL:http://10.100.11.217:21111/eureka}"
+
+encrypt:
+  keyStore:
+    location: classpath:/server.jks
+    password: "${KEYSTORE_PASSWORD:4DpeZbUL^Xy%KdHm}"
+    alias: config-server-key
+    secret: "oQ$!3QnXm%&cS%GQ"
+
+# 是否是web项目, true为是(有页面)
+#app.web.project: true

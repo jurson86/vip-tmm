@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuandai.tran.repository.TransactionCheckRepository">
+    <resultMap id="result_transaction_check_Map" type="com.tuandai.tran.domain.TransactionCheck">
+        <result column="msg_id" property="msgId" />
+        <result column="msg" property="msg" />
+        <result column="accept_count" property="acceptCount" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <sql id="transaction_check_column">
+        msg_id, msg, accept_count, create_time, update_time
+    </sql>
+
+    <update id="createIfNotExistsTable">
+        CREATE TABLE IF NOT EXISTS `transaction_check` (
+          `msg_id` varchar(100) NOT NULL,
+          `msg` varchar(255) DEFAULT NULL,
+          `accept_count` int(11) NOT NULL DEFAULT '0',
+          `create_time` datetime DEFAULT NULL,
+          `update_time` datetime DEFAULT NULL,
+          PRIMARY KEY (`msg_id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    </update>
+
+    <delete id="delete">
+        DELETE FROM transaction_check WHERE msg_id = #{msgId}
+    </delete>
+
+    <update id="update" parameterType="com.tuandai.tran.domain.TransactionCheck">
+        UPDATE transaction_check
+        <set>
+            update_time = #{updateTime},
+            <if test="acceptCount != 0">
+                accept_count = #{acceptCount}
+            </if>
+        </set>
+        WHERE
+        msg_id = #{msgId}
+    </update>
+
+    <insert id="insert" parameterType="com.tuandai.tran.domain.TransactionCheck">
+        INSERT INTO `trans_test`.`transaction_check` (
+            `msg_id`,
+            `msg`,
+            `accept_count`,
+            `create_time`,
+            `update_time`
+          )
+      VALUES
+	    (
+            #{msgId},
+            #{msg},
+            #{acceptCount},
+            #{createTime},
+            #{updateTime}
+	    ) ON DUPLICATE KEY UPDATE
+	       update_time = #{updateTime};
+    </insert>
+    
+    <select id="queryByMessageId" resultMap="result_transaction_check_Map">
+        SELECT
+          <include refid="transaction_check_column"/>
+        FROM transaction_check
+        WHERE  msg_id = #{msgId}
+    </select>
+
+    <select id="queryTransactionCheckByFilter" resultMap="result_transaction_check_Map">
+        SELECT
+          <include refid="transaction_check_column"/>
+        FROM
+          transaction_check
+        <where>
+            <if test="filter != null">
+                <if test="filter.msgIds != null and filter.msgIds.size() > 0">
+                  AND  msg_id in
+                    <foreach collection="filter.msgIds" item="msgId" open="(" close=")" separator=" , ">
+                        #{msgId}
+                    </foreach>
+                </if>
+                <if test="filter.acceptCount != null">
+                    AND accept_count = #{filter.acceptCount}
+                </if>
+                <if test="filter.maxAcceptCount != null">
+                    <![CDATA[AND accept_count < #{filter.maxAcceptCount}]]>
+                </if>
+                <if test="filter.minAcceptCount != null">
+                    <![CDATA[AND accept_count > #{filter.minAcceptCount}]]>
+                </if>
+            </if>
+        </where>
+        ORDER BY msg_id desc
+        limit 0, 1000;
+    </select>
+
+</mapper>

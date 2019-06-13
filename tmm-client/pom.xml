@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+
+	<groupId>com.tuandai.architecture</groupId>
+	<artifactId>tmm-client</artifactId>
+	<version>1.1.6-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>tmm-client</name>
+	<description>spring-cloud-tmm-client  tuandai tmm </description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<rabbitmq.version>2.8.2</rabbitmq.version>
+		<fastjson.version>1.2.12</fastjson.version>
+		<powermock.version>1.6.5</powermock.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>${fastjson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+			<version>1.5.2.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+			<version>1.5.2.RELEASE</version>
+		</dependency>
+
+		<!-- mock test -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>1.5.2.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>1.5.2.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>24.1-jre</version>
+		</dependency>
+
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.codehaus.mojo</groupId>-->
+				<!--<artifactId>cobertura-maven-plugin</artifactId>-->
+				<!--<version>2.7</version>-->
+				<!--<configuration>-->
+					<!--<formats>-->
+						<!--&lt;!&ndash; The XML report (in target/site/cobertura/coverage.xml) is useful-->
+                          <!--for uploading to Coveralls. &ndash;&gt;-->
+						<!--<format>xml</format>-->
+						<!--<format>html</format>-->
+					<!--</formats>-->
+					<!--<maxmem>256m</maxmem>-->
+					<!--<instrumentation>-->
+						<!--<excludes>-->
+							<!--&lt;!&ndash; Configuration and Application classes can be excluded from test-->
+                              <!--coverage, as they should have no meaningful logic inside - include if they-->
+                              <!--do. <exclude>com/tdw/transaction/**/config/*</exclude> <exclude>com/tdw/transaction/**/*Application.class</exclude> &ndash;&gt;-->
+						<!--</excludes>-->
+					<!--</instrumentation>-->
+					<!--<check>-->
+						<!--&lt;!&ndash; Enable failing mvn build when test coverage does not meet or exceed-->
+                          <!--goal: mvn cobertura:check test &ndash;&gt;-->
+						<!--<totalLineRate>70</totalLineRate>-->
+					<!--</check>-->
+					<!--&lt;!&ndash; aggregated reports for data.multi-module projects <aggregate>true</aggregate> &ndash;&gt;-->
+				<!--</configuration>-->
+
+			<!--</plugin>-->
+			<!-- Enables Coveralls.io integration (via Travis CI) If the project does
+              not use Travis CI, run the following to upload test coverage results to Coveralls:
+              mvn clean cobertura:cobertura coveralls:report -DrepoToken=azwIXg6Uo... You
+              obtain the Repo Token from http://coveralls.io repo configuration page -->
+			<!--<plugin>-->
+				<!--<groupId>org.eluder.coveralls</groupId>-->
+				<!--<artifactId>coveralls-maven-plugin</artifactId>-->
+				<!--<version>3.0.1</version>-->
+			<!--</plugin>-->
+		</plugins>
+	</build>
+
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>maven-snapshots</id>
+			<name>nexus-snapshots</name>
+			<url>http://nexus.tuandai.com/repository/maven-snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>maven-releases</id>
+			<name>nexus</name>
+			<url>http://nexus.tuandai.com/repository/maven-public/</url>
+		</repository>
+	</distributionManagement>
+
+
+</project>

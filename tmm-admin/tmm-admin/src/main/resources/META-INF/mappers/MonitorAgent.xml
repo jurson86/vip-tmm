@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tuandai.transaction.repository.MonitorAgentRepository">
+    <resultMap id="t_registry_agent_map" type="com.tuandai.transaction.domain.MonitorAgent">
+        <result column="pid" property="pid"/>
+        <result column="service_name" property="serviceName"/>
+        <result column="url" property="url"/>
+        <result column="monitor" property="monitor"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="t_registry_agent_columns">
+        pid, service_name ,update_time, create_time, url, monitor
+    </sql>
+
+    <update id="createMonitorAgentTable">
+        CREATE TABLE IF NOT EXISTS `t_monitor_agent` (
+          `pid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+          `service_name` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+          `url` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+          `monitor` varchar(255) DEFAULT NULL,
+          `create_time` datetime DEFAULT NULL,
+          `update_time` datetime NOT NULL,
+          PRIMARY KEY (`pid`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+
+    <select id="queryMonitorAgentAll" resultMap="t_registry_agent_map">
+        SELECT
+        <include refid="t_registry_agent_columns"/>
+        FROM
+        t_monitor_agent
+    </select>
+
+    <!--<delete id="deleteMonitorAgentById" parameterType="java.util.List">-->
+        <!--DELETE FROM t_monitor_agent-->
+        <!--WHERE pid IN-->
+        <!--<foreach collection="list" separator="," open="(" close=")" item="pid">-->
+            <!--#{pid}-->
+        <!--</foreach>-->
+    <!--</delete>-->
+
+    <delete id="deleteMonitorAgent">
+        TRUNCATE TABLE t_monitor_agent
+    </delete>
+
+    <insert id="addMonitorAgent" parameterType="java.util.List">
+        INSERT INTO `t_monitor_agent`
+        (`service_name`, `url`, `monitor`, `update_time`, `create_time`)
+        VALUES
+        <foreach collection="list" separator="," item="agent">
+            (
+                #{agent.serviceName},
+                #{agent.url},
+                #{agent.monitor},
+                #{agent.updateTime},
+                #{agent.createTime}
+            )
+        </foreach>
+    </insert>
+
+</mapper>
