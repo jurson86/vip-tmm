@@ -25,7 +25,7 @@
         <fastjson.version>1.2.51</fastjson.version>
         <rocketmq-client>4.3.1</rocketmq-client>
         <commons-codec>1.11</commons-codec>
-        <guava>24.1-jre</guava>
+        <guava>29.0-jre</guava>
         <quartz>2.3.0</quartz>
         <spring-boot-starter-amqp>1.5.2.RELEASE</spring-boot-starter-amqp>
         <spring-boot-starter-web>1.5.2.RELEASE</spring-boot-starter-web>
