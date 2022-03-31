@@ -28,7 +28,7 @@
         <guava>24.1-jre</guava>
         <quartz>2.3.0</quartz>
         <spring-boot-starter-amqp>1.5.2.RELEASE</spring-boot-starter-amqp>
-        <spring-boot-starter-web>1.5.2.RELEASE</spring-boot-starter-web>
+        <spring-boot-starter-web>2.5.12</spring-boot-starter-web>
         <aspectjweaver>1.8.9</aspectjweaver>
     </properties>
 
