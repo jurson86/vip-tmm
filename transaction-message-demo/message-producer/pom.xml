@@ -72,7 +72,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-			<version>1.2.12</version>
+			<version>1.2.83</version>
 		</dependency>
 
 		<!-- 断路器的界面管理-->
